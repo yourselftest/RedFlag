@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recursos Somáticos · Diario de Red Flags</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1a1118;--rose:#c9625f;--sage:#7a9e8e;--cream:#fdf8f2;--muted:#8a7f7a;--border:#e8e0d8;--purple:#7c6b9e;--pl:#ede8f5;--teal:#4a9e96;--amber:#c4863a;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;}
+.hdr{padding:1.25rem 2rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);background:var(--cream);position:sticky;top:0;z-index:100;}
+.logo{font-family:'Playfair Display',serif;font-size:1rem;}.logo span{color:var(--rose);}
+.nav-pills{display:flex;gap:0.4rem;}
+.np{font-size:0.7rem;padding:0.3rem 0.7rem;border:1px solid var(--border);border-radius:100px;color:var(--muted);text-decoration:none;background:white;}
+.np.active{background:var(--ink);color:white;border-color:var(--ink);}
+
+/* HERO */
+.hero{max-width:700px;margin:0 auto;padding:4rem 2rem 2rem;text-align:center;}
+.eyebrow{font-size:0.72rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--sage);margin-bottom:1rem;}
+.h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.2;margin-bottom:1rem;}
+.h1 em{color:var(--rose);font-style:italic;}
+.lead{font-size:0.97rem;line-height:1.7;color:var(--muted);max-width:520px;margin:0 auto 1.5rem;}
+
+/* FILTER TABS */
+.ftabs{display:flex;justify-content:center;flex-wrap:wrap;gap:0.4rem;margin-bottom:3rem;}
+.ftab{padding:0.45rem 1rem;border:1px solid var(--border);border-radius:100px;font-size:0.82rem;color:var(--muted);cursor:pointer;background:white;transition:all 0.15s;font-family:'DM Sans',sans-serif;}
+.ftab:hover{border-color:var(--ink);}
+.ftab.active{background:var(--ink);color:white;border-color:var(--ink);}
+
+/* CONTENT */
+.content-wrap{max-width:800px;margin:0 auto;padding:0 2rem 5rem;}
+
+/* SECTION */
+.section{margin-bottom:3.5rem;}
+.sec-hdr{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;}
+.sec-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.si-sage{background:#e1f5ee;color:var(--sage);}
+.si-purple{background:var(--pl);color:var(--purple);}
+.si-rose{background:#fdecea;color:var(--rose);}
+.si-amber{background:#fff8e1;color:var(--amber);}
+.si-teal{background:#e0f4f2;color:var(--teal);}
+.sec-title{font-family:'Playfair Display',serif;font-size:1.4rem;}
+.sec-sub{font-size:0.82rem;color:var(--muted);margin-top:0.15rem;}
+
+/* CARDS GRID */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;}
+.card{background:white;border:1px solid var(--border);border-radius:8px;padding:1.25rem;cursor:pointer;transition:all 0.2s;}
+.card:hover{border-color:var(--rose);transform:translateY(-1px);}
+.card.expanded{border-color:var(--sage);}
+.card-tag{font-size:0.68rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.5rem;}
+.ct-yoga{color:var(--sage);}
+.ct-med{color:var(--purple);}
+.ct-lim{color:var(--rose);}
+.ct-dia{color:var(--amber);}
+.ct-no{color:var(--teal);}
+.card-title{font-size:0.97rem;font-weight:500;color:var(--ink);margin-bottom:0.35rem;line-height:1.3;}
+.card-time{font-size:0.75rem;color:var(--muted);}
+.card-body{margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem;display:none;}
+.card.expanded .card-body{display:block;}
+.card-desc{font-size:0.88rem;line-height:1.7;color:var(--ink);margin-bottom:0.75rem;}
+.card-why{background:var(--pl);border-left:2px solid var(--purple);padding:0.6rem 0.85rem;font-size:0.78rem;color:#4a3570;line-height:1.5;margin-bottom:1rem;}
+.steps{list-style:none;}
+.step-li{display:flex;gap:0.75rem;align-items:flex-start;margin-bottom:0.6rem;font-size:0.85rem;line-height:1.5;color:var(--ink);}
+.step-n{width:20px;height:20px;border-radius:50%;background:var(--sage);color:white;font-size:0.7rem;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.step-n.r{background:var(--rose);}
+.step-n.p{background:var(--purple);}
+.step-n.a{background:var(--amber);}
+.step-n.t{background:var(--teal);}
+.timer-badge{display:inline-block;padding:0.3rem 0.8rem;background:#e1f5ee;color:var(--sage);border-radius:100px;font-size:0.75rem;font-weight:500;margin-top:0.5rem;}
+
+/* JOURNAL SECTION */
+.journal-prompts{display:flex;flex-direction:column;gap:0.75rem;}
+.jp{background:white;border:1px solid var(--border);border-radius:6px;padding:1rem 1.1rem;}
+.jp-num{font-size:0.7rem;font-weight:500;color:var(--amber);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.3rem;}
+.jp-text{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--ink);line-height:1.4;margin-bottom:0.3rem;}
+.jp-why{font-size:0.78rem;color:var(--muted);line-height:1.5;font-style:italic;}
+
+/* LIMITS SECTION */
+.limits-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+@media(max-width:500px){.limits-grid{grid-template-columns:1fr;}}
+.limit-card{background:white;border:1px solid var(--border);border-radius:6px;padding:1.1rem;}
+.lc-tag{font-size:0.68rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--rose);margin-bottom:0.4rem;}
+.lc-title{font-size:0.93rem;font-weight:500;color:var(--ink);margin-bottom:0.5rem;}
+.lc-example{font-family:'Playfair Display',serif;font-size:0.9rem;color:var(--ink);font-style:italic;padding:0.6rem 0.8rem;background:var(--cream);border-radius:4px;border-left:2px solid var(--rose);margin-bottom:0.5rem;line-height:1.5;}
+.lc-note{font-size:0.78rem;color:var(--muted);line-height:1.4;}
+
+/* NO SECTION */
+.no-list{display:flex;flex-direction:column;gap:0.75rem;}
+.no-item{background:white;border:1px solid var(--border);border-radius:6px;padding:1rem 1.1rem;display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+@media(max-width:500px){.no-item{grid-template-columns:1fr;}}
+.no-before{font-size:0.85rem;color:var(--muted);font-style:italic;padding-right:0.5rem;border-right:1px solid var(--border);}
+.no-after{font-size:0.85rem;color:var(--ink);}
+.no-label{font-size:0.68rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.35rem;}
+.no-l-before{color:var(--muted);}
+.no-l-after{color:var(--teal);}
+@media(max-width:500px){.no-before{border-right:none;border-bottom:1px solid var(--border);padding-bottom:0.75rem;}}
+
+/* NEXT */
+.next-bar{background:var(--ink);border-radius:8px;padding:1.5rem;margin-top:3rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.nb-text h3{font-family:'Playfair Display',serif;font-size:1.1rem;color:white;margin-bottom:0.25rem;}
+.nb-text p{font-size:0.82rem;color:#b8aeaa;}
+.btn-p{padding:0.75rem 1.5rem;background:var(--rose);color:white;border:none;border-radius:2px;font-size:0.85rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;display:inline-block;}
+
+.site-footer{background:var(--ink);color:#8a8080;padding:2rem;text-align:center;font-size:0.78rem;line-height:1.7;}
+.site-footer a{color:var(--rose);text-decoration:none;}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="logo">Diario de <span>Red Flags</span></div>
+  <div class="nav-pills">
+    <a href="index.html" class="np">Test 1 · Somático</a>
+    <a href="test2-recursos.html" class="np active">Test 2 · Recursos</a>
+    <a href="test3-conceptos.html" class="np">Test 3 · Conceptos</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="eyebrow">Test 2 de 3 · Recursos y herramientas</div>
+  <h1 class="h1">Regularte es un <em>acto de poder</em></h1>
+  <p class="lead">Herramientas somáticas, mentales y relacionales para recuperar tu centro. Filtra por lo que necesitas ahora mismo.</p>
+
+  <div class="ftabs">
+    <button class="ftab active" onclick="filterAll()">Todo</button>
+    <button class="ftab" onclick="filterSec('yoga')">Yoga y cuerpo</button>
+    <button class="ftab" onclick="filterSec('med')">Meditación</button>
+    <button class="ftab" onclick="filterSec('lim')">Límites</button>
+    <button class="ftab" onclick="filterSec('no')">Decir que no</button>
+    <button class="ftab" onclick="filterSec('dia')">Diario</button>
+  </div>
+</div>
+
+<div class="content-wrap">
+
+  <!-- YOGA Y ESTIRAMIENTOS -->
+  <div class="section" id="sec-yoga" data-sec="yoga">
+    <div class="sec-hdr">
+      <div class="sec-icon si-sage">▲</div>
+      <div>
+        <div class="sec-title">Yoga y estiramientos somáticos</div>
+        <div class="sec-sub">Para liberar la tensión fascial acumulada por el estrés relacional</div>
+      </div>
+    </div>
+    <div class="cards-grid">
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-tag ct-yoga">Urgente · 5 min</div>
+        <div class="card-title">Liberación del diafragma</div>
+        <div class="card-time">Ideal cuando sientes el pecho apretado</div>
+        <div class="card-body">
+          <div class="card-desc">El diafragma es el primer músculo que se contrae ante la amenaza. Liberarlo activa el nervio vago y frena la respuesta simpática.</div>
+          <div class="card-why">¿Por qué funciona? La respiración diafragmática profunda activa el nervio vago, que le dice al sistema nervioso que el peligro ha pasado.</div>
+          <ol class="steps">
+            <li class="step-li"><div class="step-n">1</div>Siéntate o túmbate. Pon una mano en el pecho y otra en el abdomen.</li>
+            <li class="step-li"><div class="step-n">2</div>Inhala 4 segundos, dejando que el abdomen suba (no el pecho).</li>
+            <li class="step-li"><div class="step-n">3</div>Mantén 2 segundos. Exhala en 6 segundos, muy lento.</li>
+            <li class="step-li"><div class="step-n">4</div>Con cada exhalación, imagina que sueltas algo que no es tuyo.</li>
+            <li class="step-li"><div class="step-n">5</div>Repite 6-8 ciclos. Nota cómo el pecho se abre.</li>
+          </ol>
+          <div class="timer-badge">5 minutos · Cualquier lugar</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-tag ct-yoga">Suelo pélvico · 10 min</div>
+        <div class="card-title">Apertura de caderas y suelo pélvico</div>
+        <div class="card-time">Para la tensión profunda y acumulada</div>
+        <div class="card-body">
+          <div class="card-desc">El suelo pélvico es donde más tensión emocional se acumula sin que lo notemos. Esta secuencia la libera suavemente.</div>
+          <div class="card-why">El psoas y el suelo pélvico están íntimamente conectados. La tensión relacional crónica los contrae. Esta apertura es también emocional.</div>
+          <ol class="steps">
+            <li class="step-li"><div class="step-n">1</div><b>Mariposa:</b> sentada en el suelo, plantas de los pies juntas. 2 minutos respirando hacia las caderas.</li>
+            <li class="step-li"><div class="step-n">2</div><b>Paloma:</b> una pierna doblada adelante, la otra estirada atrás. 2 min por lado. Si es mucho, haz una paloma en el suelo con las piernas más abiertas.</li>
+            <li class="step-li"><div class="step-n">3</div><b>Niño:</b> rodillas separadas, frente al suelo, brazos extendidos. 3 minutos. Aquí puedes llorar si viene. Es buena señal.</li>
+            <li class="step-li"><div class="step-n">4</div>Al terminar, siéntate y respira 5 ciclos profundos.</li>
+          </ol>
+          <div class="timer-badge">10 minutos · Esterilla o suelo</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-tag ct-yoga">Cuello y hombros · 8 min</div>
+        <div class="card-title">Liberación de la zona de alerta</div>
+        <div class="card-time">Cuando sientes la tensión en el cuello</div>
+        <div class="card-body">
+          <div class="card-desc">El cuello, los trapecios y la mandíbula son las zonas donde el sistema de vigilancia se instala. Liberarlos reduce la hipervigilancia.</div>
+          <div class="card-why">El nervio vago pasa por el cuello. Movilizarlo suavemente activa la rama parasimpática y baja la guardia del sistema nervioso.</div>
+          <ol class="steps">
+            <li class="step-li"><div class="step-n">1</div>Inclina la cabeza hacia un lado, lleva la oreja al hombro. Sostén 30 segundos. Respira hacia la tensión.</li>
+            <li class="step-li"><div class="step-n">2</div>Mueve lentamente la cabeza en semicírculo de hombro a hombro (no hacia atrás). 5 repeticiones.</li>
+            <li class="step-li"><div class="step-n">3</div>Aprieta los hombros hacia las orejas, aguanta 5 segundos, y suéltalos como si tiraran hacia el suelo.</li>
+            <li class="step-li"><div class="step-n">4</div>Abre la boca como si bostezaras, mueve la mandíbula de lado a lado. Esto libera el masetero.</li>
+          </ol>
+          <div class="timer-badge">8 minutos · De pie o sentada</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-tag ct-yoga">TRE · 15 min</div>
+        <div class="card-title">Temblor somático de liberación</div>
+        <div class="card-time">Para tensión profunda y crónica</div>
+        <div class="card-body">
+          <div class="card-desc">El TRE (Tension & Trauma Releasing Exercises) induce temblores naturales que el cuerpo usa para liberar tensión acumulada. Es lo que hacen los animales después de una amenaza.</div>
+          <div class="card-why">Los animales tiemblan después de huir de un depredador para resetear el sistema nervioso. Los humanos lo bloqueamos. Este ejercicio lo recupera.</div>
+          <ol class="steps">
+            <li class="step-li"><div class="step-n">1</div>Tumbada boca arriba, pies juntos en el suelo, rodillas dobladas. 3 minutos.</li>
+            <li class="step-li"><div class="step-n">2</div>Separa los pies al ancho de las caderas. Sube las caderas ligeramente. Notarás que las piernas empiezan a temblar solas. Eso es exactamente lo que buscamos.</li>
+            <li class="step-li"><div class="step-n">3</div>Permite el temblor durante 5-10 minutos. No lo controles.</li>
+            <li class="step-li"><div class="step-n">4</div>Para cuando quieras, baja las caderas y descansa 3 minutos.</li>
+          </ol>
+          <div class="timer-badge">15 minutos · Esterilla</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MEDITACIÓN -->
+  <div class="section" id="sec-med" data-sec="med">
+    <div class="sec-hdr">
+      <div class="sec-icon si-purple">●</div>
+      <div>
+        <div class="sec-title">Meditación y regulación del SNA</div>
+        <div class="sec-sub">Para bajar la guardia del sistema nervioso y volver a ti</div>
+      </div>
+    </div>
+    <div class="cards-grid">
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-tag ct-med">Emergencia · 3 min</div>
+        <div class="card-title">El ancla: 5-4-3-2-1 somático</div>
+        <div class="card-time">Cuando estás en espiral o disociada</div>
+        <div class="card-body">
+          <div class="card-desc">Técnica de regulación inmediata. El sistema nervioso necesita volver al presente, al cuerpo. Los sentidos son el puente.</div>
+          <div class="card-why">La disociación ocurre cuando la corteza prefrontal "se apaga" por sobreactivación. Activar los sentidos físicos la reconecta.</div>
+          <ol class="steps">
+            <li class="step-li"><div class="step-n p">5</div>Nombra en voz alta 5 cosas que puedes VER ahora mismo.</li>
+            <li class="step-li"><div class="step-n p">4</div>Toca 4 superficies diferentes. Nota la textura.</li>
+            <li class="step-li"><div class="step-n p">3</div>Escucha 3 sonidos distintos sin buscarlos.</li>
+            <li class="step-li"><div class="step-n p">2</div>Huele 2 cosas (tu piel, el aire, un jabón).</li>
+            <li class="step-li"><div class="step-n p">1</div>Nota 1 sabor en tu boca.</li>
+          </ol>
+          <div class="timer-badge">3 minutos · En cualquier momento</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-tag ct-med">Nervio vago · 10 min</div>
+        <div class="card-title">Humming: el sonido que regula</div>
+        <div class="card-time">Para activar el sistema parasimpático</div>
+        <div class="card-body">
+          <div class="card-desc">Tararear o hacer el sonido "mmm" activa el nervio vago a través de la vibración. Es una de las técnicas más simples y más poderosas.</div>
+          <div class="card-why">El nervio vago tiene ramas que pasan por la garganta. La vibración del humming lo estimula directamente, activando la respuesta de calma.</div>
+          <ol class="steps">
+            <li class="step-li"><div class="step-n p">1</div>Siéntate cómodamente, cierra los ojos.</li>
+            <li class="step-li"><div class="step-n p">2</div>Inhala profundo. Al exhalar, emite un sonido "mmm" continuo mientras dure el aire.</li>
+            <li class="step-li"><div class="step-n p">3</div>Nota la vibración en el pecho, la garganta, los labios.</li>
+            <li class="step-li"><div class="step-n p">4</div>Repite 10 veces. Puedes variar el tono.</li>
+            <li class="step-li"><div class="step-n p">5</div>Termina en silencio 2 minutos, notando cómo sientes el cuerpo.</li>
+          </ol>
+          <div class="timer-badge">10 minutos · Privacidad recomendada</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-tag ct-med">Escáner · 15 min</div>
+        <div class="card-title">Body scan somático relacional</div>
+        <div class="card-time">Para conectar con el cuerpo sin juicio</div>
+        <div class="card-body">
+          <div class="card-desc">Un body scan adaptado para personas que han vivido tensión relacional crónica. El objetivo no es relajarse, es escuchar.</div>
+          <div class="card-why">La tensión fascial crea "zonas sordas" donde el cuerpo deja de sentir para protegerse. Este ejercicio recupera la comunicación con esas zonas.</div>
+          <ol class="steps">
+            <li class="step-li"><div class="step-n p">1</div>Túmbate boca arriba. Cierra los ojos. Respira 5 veces profundo.</li>
+            <li class="step-li"><div class="step-n p">2</div>Lleva la atención a los pies. Sin cambiar nada. Solo observar. ¿Hay tensión, calor, frío, nada?</li>
+            <li class="step-li"><div class="step-n p">3</div>Sube lentamente: piernas, caderas, suelo pélvico, abdomen, diafragma, pecho, hombros, cuello, cara.</li>
+            <li class="step-li"><div class="step-n p">4</div>Donde encuentres tensión, pregunta sin juzgar: ¿qué estás guardando aquí?</li>
+            <li class="step-li"><div class="step-n p">5</div>No tienes que responder. Solo escuchar.</li>
+          </ol>
+          <div class="timer-badge">15 minutos · Tumbada</div>
+        </div>
+      </div>
+
+      <div class="card" onclick="toggleCard(this)">
+        <div class="card-tag ct-med">Ducha · 5 min</div>
+        <div class="card-title">Ducha de contraste como reset</div>
+        <div class="card-time">Para cortar el ciclo de rumia</div>
+        <div class="card-body">
+          <div class="card-desc">El cambio de temperatura es uno de los estímulos físicos más efectivos para interrumpir el circuito de pensamiento repetitivo y activar el sistema parasimpático.</div>
+          <div class="card-why">El choque térmico activa los termorreceptores y desvía la atención del circuito de alerta prefrontal. También activa la norepinefrina de forma natural.</div>
+          <ol class="steps">
+            <li class="step-li"><div class="step-n p">1</div>Ducha normal 3-5 minutos.</li>
+            <li class="step-li"><div class="step-n p">2</div>Cambia al agua fría durante 30 segundos. Respira. No aguantes la respiración.</li>
+            <li class="step-li"><div class="step-n p">3</div>Vuelve al calor 1 minuto.</li>
+            <li class="step-li"><div class="step-n p">4</div>Termina en frío 30 segundos.</li>
+          </ol>
+          <div class="timer-badge">5-8 minutos · Baño</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LÍMITES -->
+  <div class="section" id="sec-lim" data-sec="lim">
+    <div class="sec-hdr">
+      <div class="sec-icon si-rose">◆</div>
+      <div>
+        <div class="sec-title">Gestión de límites</div>
+        <div class="sec-sub">Los límites no son muros. Son la membrana que te permite seguir siendo tú.</div>
+      </div>
+    </div>
+    <div class="limits-grid">
+      <div class="limit-card">
+        <div class="lc-tag">Concepto clave</div>
+        <div class="lc-title">¿Qué es un límite real?</div>
+        <div class="lc-example">"Un límite no es lo que le pido a la otra persona que haga. Es lo que yo haré si esa conducta continúa."</div>
+        <div class="lc-note">No: "No me grites." (eso es una petición)<br>Sí: "Si me gritas, me marcho de esta conversación."</div>
+      </div>
+      <div class="limit-card">
+        <div class="lc-tag">Cuando se enfadan por tu límite</div>
+        <div class="lc-title">Su incomodidad no es tu responsabilidad</div>
+        <div class="lc-example">"Una persona que se enfada porque tú tienes necesidades básicas está mostrándote su incompetencia emocional, no tu error."</div>
+        <div class="lc-note">El enfado ante tus límites es información. Tómala.</div>
+      </div>
+      <div class="limit-card">
+        <div class="lc-tag">Frase para comenzar</div>
+        <div class="lc-title">Límite con familia de origen</div>
+        <div class="lc-example">"Entiendo que no estás de acuerdo, y aun así esto es lo que necesito. Puedo escuchar tu perspectiva, pero la decisión es mía."</div>
+        <div class="lc-note">Con familia no siempre podemos salir, pero sí podemos definir el terreno que habitamos dentro de esa relación.</div>
+      </div>
+      <div class="limit-card">
+        <div class="lc-tag">Frase para comenzar</div>
+        <div class="lc-title">Límite en el trabajo</div>
+        <div class="lc-example">"Puedo tener esto listo para el [fecha real]. Si necesitas que sea antes, necesito que quitemos algo de la lista."</div>
+        <div class="lc-note">Los límites laborales se plantean como gestión de recursos, no como confrontación.</div>
+      </div>
+      <div class="limit-card">
+        <div class="lc-tag">Frase para comenzar</div>
+        <div class="lc-title">Límite en pareja o amistad</div>
+        <div class="lc-example">"Cuando [conducta específica], yo siento [emoción]. Necesito [petición concreta]. Si esto continúa, voy a [consecuencia real]."</div>
+        <div class="lc-note">Estructura: observación + emoción + petición + consecuencia.</div>
+      </div>
+      <div class="limit-card">
+        <div class="lc-tag">Cuando no puedes salir</div>
+        <div class="lc-title">Límites en sistemas difíciles (alquiler, institución)</div>
+        <div class="lc-example">"No puedo cambiar el sistema hoy, pero sí puedo decidir a quién le cuento esto, qué busco mañana, y qué no me permito normalizar."</div>
+        <div class="lc-note">El poder existe incluso donde la libertad es limitada. Está en lo que decides hacer con lo que tienes.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DECIR QUE NO -->
+  <div class="section" id="sec-no" data-sec="no">
+    <div class="sec-hdr">
+      <div class="sec-icon si-teal">■</div>
+      <div>
+        <div class="sec-title">Formas de decir que no</div>
+        <div class="sec-sub">El "no" es una oración completa. Pero si necesitas palabras, aquí van algunas.</div>
+      </div>
+    </div>
+    <div class="no-list">
+      <div class="no-item">
+        <div class="no-before">
+          <div class="no-label no-l-before">Antes (culpa)</div>
+          "Lo siento mucho, es que no sé si podré, ojalá pudiera pero..."
+        </div>
+        <div class="no-after">
+          <div class="no-label no-l-after">Ahora (límite)</div>
+          "No voy a poder. Gracias por pensar en mí."
+        </div>
+      </div>
+      <div class="no-item">
+        <div class="no-before">
+          <div class="no-label no-l-before">Antes (sobre-explicar)</div>
+          "Es que tengo muchas cosas, y además mi jefe, y también..."
+        </div>
+        <div class="no-after">
+          <div class="no-label no-l-after">Ahora (límite)</div>
+          "Ahora mismo no tengo capacidad para esto."
+        </div>
+      </div>
+      <div class="no-item">
+        <div class="no-before">
+          <div class="no-label no-l-before">Antes (pregunta)</div>
+          "¿Te molesta que no vaya? ¿Estás segura de que no pasa nada?"
+        </div>
+        <div class="no-after">
+          <div class="no-label no-l-after">Ahora (límite)</div>
+          "No voy a ir esta vez. Que lo disfrutéis."
+        </div>
+      </div>
+      <div class="no-item">
+        <div class="no-before">
+          <div class="no-label no-l-before">Ante presión</div>
+          "Bueno... si de verdad lo necesitas..."
+        </div>
+        <div class="no-after">
+          <div class="no-label no-l-after">Ahora (límite)</div>
+          "Mi respuesta es no, aunque estés decepcionada/o."
+        </div>
+      </div>
+      <div class="no-item">
+        <div class="no-before">
+          <div class="no-label no-l-before">Con manipulación emocional</div>
+          "Pero es que tú eres la única que puede..."
+        </div>
+        <div class="no-after">
+          <div class="no-label no-l-after">Ahora (límite)</div>
+          "Entiendo que es difícil. Y mi respuesta sigue siendo no."
+        </div>
+      </div>
+      <div class="no-item">
+        <div class="no-before">
+          <div class="no-label no-l-before">En familia</div>
+          "Sí, sí, claro que voy..." (y luego resentimiento)</div>
+        <div class="no-after">
+          <div class="no-label no-l-after">Ahora (límite)</div>
+          "Este año no voy a poder estar. Podemos quedar otro día."
+        </div>
+      </div>
+    </div>
+    <div style="background:var(--pl);border-radius:6px;padding:1.1rem 1.25rem;margin-top:1rem;">
+      <div style="font-size:0.7rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--purple);margin-bottom:0.4rem;">Recuerda</div>
+      <p style="font-size:0.88rem;color:#4a3570;line-height:1.6;">No debes disculparte por tus necesidades. No debes justificar tus límites. La incomodidad que sientes al decir que no es el sistema nervioso recordando que en el pasado era peligroso. Ya no lo es.</p>
+    </div>
+  </div>
+
+  <!-- DIARIO -->
+  <div class="section" id="sec-dia" data-sec="dia">
+    <div class="sec-hdr">
+      <div class="sec-icon si-amber">◇</div>
+      <div>
+        <div class="sec-title">Escribir un diario para no volverse loca</div>
+        <div class="sec-sub">Cuando dudas de tu percepción, el papel te devuelve la certeza</div>
+      </div>
+    </div>
+    <div style="background:white;border:1px solid var(--border);border-radius:6px;padding:1.25rem;margin-bottom:1.25rem;">
+      <div style="font-size:0.7rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber);margin-bottom:0.5rem;">Por qué el diario funciona</div>
+      <p style="font-size:0.88rem;line-height:1.7;color:var(--ink);">El gaslighting te hace dudar de tu memoria. Escribir los hechos tal como ocurrieron, con fecha, te da una referencia objetiva. No estás loca. Los hechos están ahí. El diario es el testigo que siempre te cree.</p>
+    </div>
+    <div class="journal-prompts">
+      <div class="jp"><div class="jp-num">Prompt 1 · Los hechos</div><div class="jp-text">¿Qué pasó exactamente? Fecha, hora, qué se dijo, cómo reaccionó cada persona.</div><div class="jp-why">Sin interpretaciones todavía. Solo los hechos. Esto contrarresta la confusión inducida.</div></div>
+      <div class="jp"><div class="jp-num">Prompt 2 · Tu cuerpo en ese momento</div><div class="jp-text">¿Qué sentiste físicamente durante o después de esa situación? ¿Dónde lo sentiste?</div><div class="jp-why">El cuerpo registra lo que la mente negocia. Esta pregunta lo recupera.</div></div>
+      <div class="jp"><div class="jp-num">Prompt 3 · Lo que te dijiste</div><div class="jp-text">¿Qué pensaste después? ¿Te justificaste? ¿Te culpaste? ¿Minimizaste?</div><div class="jp-why">Detectar los patrones de autosabotaje que el gaslighting instala.</div></div>
+      <div class="jp"><div class="jp-num">Prompt 4 · Lo que necesitabas</div><div class="jp-text">En ese momento, ¿qué necesitabas que no recibiste? ¿Qué te gustaría haber dicho?</div><div class="jp-why">Recuperar la voz interior que se silencia en relaciones de control.</div></div>
+      <div class="jp"><div class="jp-num">Prompt 5 · El patrón</div><div class="jp-text">¿Esta situación se parece a otras que has vivido? ¿Qué tienen en común?</div><div class="jp-why">Ver el patrón es desactivar su poder. No estás exagerando. Es un patrón.</div></div>
+      <div class="jp"><div class="jp-num">Prompt 6 · Una cosa que sí puedo</div><div class="jp-text">Hoy, con los recursos que tengo, ¿qué es UNA cosa que está en mi poder hacer o decidir?</div><div class="jp-why">Activar la agencia personal, aunque sea pequeña. El movimiento regula el sistema nervioso.</div></div>
+    </div>
+  </div>
+
+  <!-- NEXT -->
+  <div class="next-bar">
+    <div class="nb-text">
+      <h3>¿Todavía tienes dudas de lo que viviste?</h3>
+      <p>El Test 3 explica gaslighting, love bombing, ley del hielo y tipos de apego con preguntas de verdadero/falso.</p>
+    </div>
+    <a href="test3-conceptos.html" class="btn-p">Ir al Test 3 →</a>
+  </div>
+
+</div>
+
+<footer class="site-footer">
+  <div style="max-width:460px;margin:0 auto;">
+    <div style="font-family:'Playfair Display',serif;font-size:1rem;color:#e8e0d8;margin-bottom:0.4rem;">Diario de Red Flags</div>
+    <p>Fisioterapia somática · Psicología relacional · Autoconocimiento</p>
+    <p style="margin-top:0.5rem;"><a href="index.html">← Volver al Test 1</a></p>
+  </div>
+</footer>
+
+<script>
+function toggleCard(el){el.classList.toggle('expanded');}
+function filterAll(){document.querySelectorAll('.section').forEach(s=>s.style.display='');document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));document.querySelector('.ftab').classList.add('active');}
+function filterSec(cat){
+  document.querySelectorAll('.section').forEach(s=>{s.style.display=s.dataset.sec===cat?'':'none';});
+  document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
