@@ -28,6 +28,9 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);m
 .btn-p{display:inline-block;padding:0.9rem 2.4rem;background:var(--ink);color:white;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:500;border:none;cursor:pointer;border-radius:2px;transition:background 0.2s;}
 .btn-p:hover{background:var(--rose);}
 .strip{background:var(--ink);color:#c8bfb8;padding:1rem 2rem;text-align:center;font-family:'Playfair Display',serif;font-style:italic;font-size:0.9rem;}
+.intro-questions{max-width:480px;margin:0 auto 1.5rem;text-align:center;}
+.iq-item{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--ink);line-height:1.8;font-style:italic;}
+.iq-cta{font-size:0.9rem;font-weight:500;color:var(--rose);margin-top:0.5rem;letter-spacing:0.02em;}
 .twrap{max-width:600px;margin:0 auto;padding:2.5rem 2rem;}
 .prow{display:flex;align-items:center;gap:1rem;margin-bottom:2.5rem;}
 .ptrack{flex:1;height:2px;background:var(--border);}
@@ -137,6 +140,7 @@ textarea:focus{outline:none;border-color:var(--rose);}
 .site-footer{background:var(--ink);color:#8a8080;padding:2rem;text-align:center;font-size:0.78rem;line-height:1.7;}
 .site-footer a{color:var(--rose);text-decoration:none;}
 </style>
+<script src="https://www.paypal.com/sdk/js?client-id=BAAVCAqT5-7WjW5eBHN5cXFFLZHGHJk-KEHgFZyQyyKvBM0VmpurQoQerk52P5axTwEPngSyfgXTeJocA4&components=hosted-buttons&disable-funding=venmo&currency=EUR"></script>
 </head>
 <body>
 
@@ -152,8 +156,14 @@ textarea:focus{outline:none;border-color:var(--rose);}
 <div id="s-intro" class="screen active">
   <div class="intro">
     <div class="eyebrow">Test 1 de 3 · Fisioterapia somática relacional</div>
-    <h1 class="h1">¿Qué está haciendo<br>tu cuerpo <em>ahora mismo</em>?</h1>
+    <h1 class="h1">¿Qué te está contando<br>tu cuerpo <em>ahora mismo</em>?</h1>
     <p class="lead">Tu sistema nervioso no distingue entre un depredador y una relación tóxica. Para él, ambos son una amenaza. Este test te ayuda a leer esas señales.</p>
+    <div class="intro-questions">
+      <p class="iq-item">¿Dudas si estás en una relación abusiva?</p>
+      <p class="iq-item">¿Sufres acoso laboral?</p>
+      <p class="iq-item">¿Tu cuerpo no se siente a salvo en tus dinámicas familiares?</p>
+      <p class="iq-cta">Haz el test para aportar claridad.</p>
+    </div>
     <div class="theory-box">
       <strong>Por qué el cuerpo importa:</strong> Cuando sentimos peligro relacional —manipulación, crítica constante, miedo a perder el vínculo— las fascias se contraen. El <strong>transverso del abdomen</strong>, el <strong>suelo pélvico</strong> y el <strong>diafragma</strong> se tensan. La respiración se vuelve superficial. El <strong>sistema nervioso simpático</strong> se activa como si hubiera un depredador. No hay un león en la sala, hay un <em>elefante escondido</em>: lo que tu cuerpo entiende que está pasando, aunque tu mente aún lo negocie.
     </div>
@@ -167,6 +177,19 @@ textarea:focus{outline:none;border-color:var(--rose);}
     <p style="font-size:0.75rem;color:var(--muted);margin-top:0.75rem;">Tus respuestas no se guardan en ningún servidor.</p>
   </div>
   <div class="strip">"El cuerpo sabe lo que la mente todavía no se permite saber."</div>
+<!-- QUIÉN SOY -->
+<div style="max-width:680px;margin:0 auto;padding:3rem 2rem;display:flex;gap:2rem;align-items:center;flex-wrap:wrap;">
+  <div style="flex-shrink:0;text-align:center;">
+    <img src="presentacion-cara.png" style="width:160px;height:auto;object-fit:contain;" alt="Ilustración de la autora">
+  </div>
+  <div style="flex:1;min-width:260px;">
+    <div style="font-size:0.72rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#c9625f;margin-bottom:0.75rem;">Quién está detrás</div>
+    <p style="font-family:'Playfair Display',serif;font-size:1rem;color:#1a1118;line-height:1.8;font-style:italic;">Soy fisioterapeuta somática. Llevo años trabajando con cuerpos que guardan lo que la mente todavía no se permite saber.</p>
+    <p style="font-family:'Playfair Display',serif;font-size:1rem;color:#1a1118;line-height:1.8;font-style:italic;margin-top:0.75rem;">Y lo sé también desde dentro. He vivido en mis propias carnes dinámicas que me hacían estar en alerta constante — secretos familiares, relaciones donde me empequeñecía para complacer a los demás, trabajos donde me acosaron mientras hacía un buen trabajo.</p>
+    <p style="font-family:'Playfair Display',serif;font-size:1rem;color:#1a1118;line-height:1.8;font-style:italic;margin-top:0.75rem;">Nadie está libre de las dinámicas de poder en esta sociedad. Y yo, como fisioterapeuta, quiero acompañarte. Porque ni tú ni yo estamos solas en esta experiencia.</p>
+  </div>
+</div>
+
 </div>
 
 <div id="s-test" class="screen">
@@ -265,11 +288,60 @@ textarea:focus{outline:none;border-color:var(--rose);}
   </div>
 </div>
 
+<!-- TESTS DE PAGO -->
+<div style="background:var(--dust);border-top:1px solid var(--border);padding:3rem 2rem;">
+  <div style="max-width:700px;margin:0 auto;">
+    <div style="font-size:0.7rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem;">Análisis en profundidad</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.7rem;color:var(--ink);margin-bottom:0.5rem;">Tests especializados · 9€</h2>
+    <p style="font-size:0.9rem;color:var(--muted);line-height:1.65;margin-bottom:1.75rem;">Si el test gratuito ha resonado contigo y quieres ir más lejos, estos tests de pago incluyen análisis somático con IA, situaciones comparativas, herramientas prácticas y mucho más.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin-bottom:1.5rem;">
+      <div style="background:white;border:1px solid var(--border);border-radius:8px;padding:1.25rem;">
+        <div style="font-size:0.7rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--rose);margin-bottom:0.5rem;">Relaciones de pareja</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--ink);margin-bottom:0.5rem;line-height:1.3;">¿Tu relación te hace sentir más tú o menos?</div>
+        <div style="font-size:0.8rem;color:var(--muted);margin-bottom:1rem;line-height:1.5;">Gaslighting, love bombing, tipos de apego, situaciones comparativas y herramientas somáticas.</div>
+        <div id="paypal-container-CD887WW4GZ8S6"></div>
+<script>paypal.HostedButtons({hostedButtonId:"CD887WW4GZ8S6"}).render("#paypal-container-CD887WW4GZ8S6")</script>
+<p style="font-size:0.72rem;color:var(--muted);text-align:center;margin-top:0.5rem;">Tras el pago recibirás el enlace por email</p>
+      </div>
+      <div style="background:white;border:1px solid var(--border);border-radius:8px;padding:1.25rem;">
+        <div style="font-size:0.7rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#c4863a;margin-bottom:0.5rem;">Dinámicas familiares</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--ink);margin-bottom:0.5rem;line-height:1.3;">Ninguna familia es perfecta. Tú puedes elegir cómo cuidarte.</div>
+        <div style="font-size:0.8rem;color:var(--muted);margin-bottom:1rem;line-height:1.5;">Roles familiares, triángulo dramático, lealtad, herramientas somáticas.</div>
+        <div id="paypal-container-5YZVD29HTXQ9Q"></div>
+<script>paypal.HostedButtons({hostedButtonId:"5YZVD29HTXQ9Q"}).render("#paypal-container-5YZVD29HTXQ9Q")</script>
+<p style="font-size:0.72rem;color:var(--muted);text-align:center;margin-top:0.5rem;">Tras el pago recibirás el enlace por email</p>
+      </div>
+      <div style="background:white;border:1px solid var(--border);border-radius:8px;padding:1.25rem;">
+        <div style="font-size:0.7rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#4a9e96;margin-bottom:0.5rem;">Acoso laboral</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--ink);margin-bottom:0.5rem;line-height:1.3;">Lo que te pasa en el trabajo no es culpa tuya.</div>
+        <div style="font-size:0.8rem;color:var(--muted);margin-bottom:1rem;line-height:1.5;">Gaslighting laboral, recursos prácticos, herramientas somáticas y posibilidades reales.</div>
+        <div id="paypal-container-2EZC2DETDQXCE"></div>
+<script>paypal.HostedButtons({hostedButtonId:"2EZC2DETDQXCE"}).render("#paypal-container-2EZC2DETDQXCE")</script>
+<p style="font-size:0.72rem;color:var(--muted);text-align:center;margin-top:0.5rem;">Tras el pago recibirás el enlace por email</p>
+      </div>
+    </div>
+    <div style="text-align:center;padding:1rem;background:white;border:1px solid var(--border);border-radius:6px;">
+      <span style="font-size:0.85rem;color:var(--muted);">¿Los tres te interesan? </span>
+      <span style="font-size:0.85rem;font-weight:500;color:var(--ink);">Pack completo · 19€</span>
+      <span style="font-size:0.78rem;color:var(--muted);display:block;margin-top:0.25rem;">Escríbenos para el pack y te enviamos acceso a los tres.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ETSY -->
+<div style="background:white;border-top:1px solid var(--border);padding:2rem;text-align:center;">
+  <div style="max-width:500px;margin:0 auto;">
+    <div style="font-size:0.7rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem;">Recursos descargables</div>
+    <p style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--ink);margin-bottom:0.5rem;">Ilustraciones y guías en nuestra tienda</p>
+    <p style="font-size:0.85rem;color:var(--muted);margin-bottom:1rem;">PDFs ilustrados, mensajes para momentos difíciles y guías somáticas descargables.</p>
+    <a href="https://etsy.com" target="_blank" style="display:inline-block;padding:0.75rem 2rem;background:transparent;border:1px solid var(--border);border-radius:2px;font-size:0.85rem;color:var(--ink);text-decoration:none;">Ver tienda en Etsy →</a>
+  </div>
+</div>
+
 <footer class="site-footer">
   <div style="max-width:460px;margin:0 auto;">
     <div style="font-family:'Playfair Display',serif;font-size:1rem;color:#e8e0d8;margin-bottom:0.4rem;">Diario de Red Flags</div>
-    <p>Fisioterapia somática · Psicología relacional · Autoconocimiento</p>
-    <p style="margin-top:0.5rem;">Contacto: <a href="mailto:hola@tudominio.com">hola@tudominio.com</a></p>
+    <p>Fisioterapia somática · Autoconocimiento · Bienestar</p>
     <p style="margin-top:0.75rem;font-size:0.7rem;opacity:0.5;">Test orientativo. No sustituye atención profesional.</p>
   </div>
 </footer>
