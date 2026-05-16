@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test Pareja Tóxica · Diario de Red Flags</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1a1118;--rose:#c9625f;--sage:#7a9e8e;--cream:#fdf8f2;--muted:#8a7f7a;--border:#e8e0d8;--purple:#7c6b9e;--pl:#ede8f5;--warm:#f5ede4;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;}
+.hdr{padding:1.25rem 2rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);background:var(--cream);position:sticky;top:0;z-index:100;}
+.logo{font-family:'Playfair Display',serif;font-size:1rem;}.logo span{color:var(--rose);}
+.back{font-size:0.78rem;color:var(--muted);text-decoration:none;}
+.back:hover{color:var(--ink);}
+.screen{display:none;}.screen.active{display:block;}
+
+/* WELCOME */
+.welcome{max-width:640px;margin:0 auto;padding:4rem 2rem 3rem;}
+.w-eyebrow{font-size:0.72rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--rose);margin-bottom:1.25rem;}
+.w-title{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,4.5vw,2.8rem);line-height:1.2;margin-bottom:1.5rem;}
+.w-title em{color:var(--rose);font-style:italic;}
+.compassion{background:#1a1118;border-radius:10px;padding:2rem;margin-bottom:2rem;}
+.c-text{font-family:'Playfair Display',serif;font-size:1.05rem;color:#e8e0d8;line-height:1.8;font-style:italic;}
+.c-text strong{color:#c9625f;font-style:normal;font-weight:500;}
+.w-intro{font-size:0.95rem;color:var(--muted);line-height:1.75;margin-bottom:2rem;}
+.pills-row{display:flex;flex-wrap:wrap;gap:0.4rem;margin-bottom:2rem;}
+.pill{padding:0.3rem 0.85rem;border:1px solid var(--border);border-radius:100px;font-size:0.78rem;color:var(--muted);background:white;}
+.btn-start{display:inline-block;padding:0.9rem 2.4rem;background:var(--ink);color:white;font-family:'DM Sans',sans-serif;font-size:0.9rem;font-weight:500;border:none;cursor:pointer;border-radius:2px;transition:background 0.2s;}
+.btn-start:hover{background:var(--rose);}
+
+/* TEST */
+.twrap{max-width:600px;margin:0 auto;padding:2.5rem 2rem;}
+.prow{display:flex;align-items:center;gap:1rem;margin-bottom:2rem;}
+.ptrack{flex:1;height:2px;background:var(--border);}
+.pfill{height:2px;background:var(--rose);transition:width 0.5s ease;}
+.pcnt{font-size:0.75rem;color:var(--muted);font-weight:500;white-space:nowrap;}
+.block-label{font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--rose);margin-bottom:0.4rem;}
+.qwrap{animation:fu 0.3s ease;}
+@keyframes fu{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.qtag{font-size:0.7rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--sage);margin-bottom:0.5rem;}
+.qtext{font-family:'Playfair Display',serif;font-size:1.35rem;line-height:1.3;margin-bottom:0.5rem;}
+.qhint{font-size:0.83rem;color:var(--muted);font-style:italic;margin-bottom:1.25rem;line-height:1.5;}
+textarea{width:100%;border:1px solid var(--border);border-radius:4px;padding:0.85rem 1rem;font-family:'DM Sans',sans-serif;font-size:0.93rem;color:var(--ink);background:white;resize:vertical;min-height:90px;line-height:1.6;transition:border-color 0.2s;}
+textarea:focus{outline:none;border-color:var(--rose);}
+.chips-col{display:flex;flex-direction:column;gap:0.4rem;}
+.chip{display:flex;align-items:flex-start;gap:0.7rem;padding:0.75rem 0.9rem;border:1px solid var(--border);border-radius:4px;cursor:pointer;background:white;transition:all 0.15s;font-size:0.88rem;color:var(--ink);text-align:left;width:100%;}
+.chip:hover{border-color:var(--rose);}
+.chip.sel{background:#fdf3f3;border-color:var(--rose);color:#8b3a38;}
+.chk{width:16px;height:16px;border:1.5px solid var(--border);border-radius:3px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;}
+.chip.sel .chk{background:var(--rose);border-color:var(--rose);}
+.chk svg{opacity:0;}.chip.sel .chk svg{opacity:1;}
+.scale-row{display:flex;gap:0.35rem;flex-wrap:wrap;}
+.scbtn{width:42px;height:42px;border:1px solid var(--border);border-radius:4px;font-size:0.88rem;font-weight:500;cursor:pointer;background:white;color:var(--muted);transition:all 0.15s;font-family:'DM Sans',sans-serif;}
+.scbtn:hover{border-color:var(--rose);color:var(--rose);}
+.scbtn.sel{background:var(--rose);border-color:var(--rose);color:white;}
+.sclbls{display:flex;justify-content:space-between;font-size:0.72rem;color:var(--muted);margin-top:0.4rem;}
+.navrow{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--border);}
+.btn-g{padding:0.7rem 1.4rem;background:transparent;border:1px solid var(--border);border-radius:2px;font-size:0.83rem;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;}
+.btn-g:hover{border-color:var(--muted);}
+
+/* TF QUESTIONS */
+.tf-row{display:flex;gap:0.75rem;margin-bottom:1rem;}
+.tf-btn{flex:1;padding:1rem;border:1.5px solid var(--border);border-radius:6px;font-size:0.95rem;font-weight:500;cursor:pointer;background:white;color:var(--ink);transition:all 0.15s;font-family:'DM Sans',sans-serif;}
+.tf-btn:hover:not(:disabled){transform:translateY(-1px);}
+.tf-btn.v:hover:not(:disabled){border-color:var(--sage);color:var(--sage);}
+.tf-btn.f:hover:not(:disabled){border-color:var(--rose);color:var(--rose);}
+.tf-btn:disabled{cursor:default;}
+.tf-btn.correct{background:#e8f5e9;border-color:#2e6b38;color:#2e6b38;}
+.tf-btn.wrong{background:#fdecea;border-color:#8b2e2e;color:#8b2e2e;}
+.tf-btn.reveal{background:#e8f5e9;border-color:#2e6b38;color:#2e6b38;}
+.feedback{border-radius:6px;padding:1rem 1.1rem;display:none;margin-bottom:1rem;}
+.feedback.show{display:block;animation:fu 0.25s ease;}
+.fb-v{background:#e8f5e9;border-left:3px solid #2e6b38;}
+.fb-f{background:#fdecea;border-left:3px solid #8b2e2e;}
+.fb-head{font-size:0.8rem;font-weight:500;margin-bottom:0.35rem;}
+.fh-v{color:#2e6b38;}.fh-f{color:#8b2e2e;}
+.fb-text{font-size:0.88rem;line-height:1.65;color:var(--ink);}
+
+/* LOADING */
+.lscreen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:70vh;padding:2rem;text-align:center;}
+.lorb{width:48px;height:48px;border-radius:50%;border:2px solid var(--border);border-top-color:var(--rose);animation:spin 0.9s linear infinite;margin-bottom:1.5rem;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.ltitle{font-family:'Playfair Display',serif;font-size:1.25rem;color:var(--ink);margin-bottom:0.4rem;}
+.lsub{font-size:0.88rem;color:var(--muted);}
+
+/* RESULTS */
+.rwrap{max-width:700px;margin:0 auto;padding:3rem 2rem 5rem;}
+.rheader{text-align:center;margin-bottom:2.5rem;}
+.rtitle{font-family:'Playfair Display',serif;font-size:2rem;line-height:1.2;margin-bottom:0.75rem;}
+.rsub{font-size:0.95rem;color:var(--muted);line-height:1.6;max-width:500px;margin:0 auto;}
+.sec-lbl{font-size:0.7rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:1rem;padding-bottom:0.4rem;border-bottom:1px solid var(--border);}
+.acard{background:white;border:1px solid var(--border);border-radius:6px;padding:1.35rem;margin-bottom:0.85rem;}
+.acard-lbl{font-size:0.7rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--sage);margin-bottom:0.6rem;}
+.acard p{font-size:0.93rem;line-height:1.7;color:var(--ink);}
+.qcard{background:var(--ink);color:white;border-radius:6px;padding:1.75rem 1.5rem;margin-bottom:2.5rem;position:relative;}
+.qcard::before{content:'\201C';font-family:'Playfair Display',serif;font-size:3.5rem;color:var(--rose);position:absolute;top:0.3rem;left:1.25rem;line-height:1;}
+.qcard p{font-family:'Playfair Display',serif;font-size:1.05rem;font-style:italic;line-height:1.6;color:#e8e0d8;padding-top:1.25rem;}
+
+/* SITUACIONES */
+.sit-wrap{margin-bottom:2.5rem;}
+.sit-card{background:white;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:1rem;}
+.sit-title{font-size:0.85rem;font-weight:500;color:var(--ink);padding:1rem 1.25rem 0.5rem;line-height:1.4;}
+.sit-cols{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--border);}
+@media(max-width:500px){.sit-cols{grid-template-columns:1fr;}}
+.sit-col{padding:1rem 1.1rem;}
+.sit-col-a{border-right:1px solid var(--border);background:#fdf8f7;}
+.sit-col-b{background:#f7fdf9;}
+.sit-col-label{font-size:0.68rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.5rem;}
+.sl-a{color:#8b3a38;}.sl-b{color:#2e6b38;}
+.sit-text{font-size:0.85rem;color:var(--ink);line-height:1.65;}
+.sit-note{font-size:0.78rem;color:var(--muted);font-style:italic;padding:0.75rem 1.25rem;background:var(--cream);border-top:1px solid var(--border);}
+
+/* APEGO */
+.apego-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:0.85rem;margin-bottom:1rem;}
+.apego-card{border-radius:6px;padding:1.1rem;}
+.ac-ansioso{background:#fdf3f3;border:1px solid #e8c8c8;}
+.ac-evitativo{background:#f3f6fd;border:1px solid #c8d4e8;}
+.ac-seguro{background:#f3fdf6;border:1px solid #c8e8d4;}
+.ac-label{font-size:0.68rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.4rem;}
+.al-ans{color:#8b3a38;}.al-evi{color:#3a4e8b;}.al-seg{color:#2e6b38;}
+.ac-quote{font-family:'Playfair Display',serif;font-size:0.85rem;font-style:italic;color:var(--ink);margin-bottom:0.5rem;line-height:1.4;}
+.ac-desc{font-size:0.78rem;color:var(--muted);line-height:1.5;}
+.apego-conclusion{background:#1a1118;border-radius:6px;padding:1.5rem;margin-bottom:2.5rem;}
+.apego-conclusion p{font-size:0.9rem;color:#c8bfb8;line-height:1.75;}
+.apego-conclusion strong{color:#e8e0d8;font-weight:500;}
+.apego-conclusion em{color:var(--rose);font-style:italic;}
+
+/* HERRAMIENTAS */
+.herr-wrap{margin-bottom:2.5rem;}
+.herr-intro{background:var(--warm);border-radius:6px;padding:1.25rem;margin-bottom:1rem;font-size:0.9rem;color:var(--ink);line-height:1.7;}
+.herr-intro strong{font-weight:500;}
+.herr-card{background:white;border:1px solid var(--border);border-radius:6px;padding:1.25rem;margin-bottom:0.85rem;}
+.herr-num{font-size:0.68rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--sage);margin-bottom:0.4rem;}
+.herr-title{font-size:1rem;font-weight:500;color:var(--ink);margin-bottom:0.3rem;}
+.herr-when{font-size:0.78rem;color:var(--muted);font-style:italic;margin-bottom:0.75rem;}
+.herr-steps{list-style:none;}
+.hs-item{display:flex;gap:0.75rem;align-items:flex-start;margin-bottom:0.5rem;font-size:0.85rem;color:var(--ink);line-height:1.5;}
+.hs-n{width:20px;height:20px;border-radius:50%;background:var(--sage);color:white;font-size:0.7rem;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.herr-nota{font-size:0.78rem;color:var(--muted);font-style:italic;margin-top:0.6rem;line-height:1.5;}
+.cierre{background:#1a1118;border-radius:6px;padding:1.75rem;margin-bottom:2.5rem;}
+.cierre p{font-family:'Playfair Display',serif;font-size:1rem;color:#e8e0d8;line-height:1.75;font-style:italic;}
+.cierre strong{color:var(--rose);font-style:normal;font-weight:500;}
+
+.site-footer{background:var(--ink);color:#8a8080;padding:2rem;text-align:center;font-size:0.78rem;line-height:1.7;}
+.site-footer a{color:var(--rose);text-decoration:none;}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="logo">Diario de <span>Red Flags</span></div>
+  <a href="index.html" class="back">← Volver al test gratuito</a>
+</header>
+
+<!-- WELCOME -->
+<div id="s-welcome" class="screen active">
+  <div class="welcome">
+    <div class="w-eyebrow">Test de pago · Pareja tóxica</div>
+    <h1 class="w-title">¿Tu relación te hace<br>sentir <em>más tú</em> o menos?</h1>
+
+    <div class="compassion">
+      <div class="c-text">
+        Si estás aquí, algo en ti ya lo sabe.<br><br>
+        Queremos decirte algo antes de empezar: <strong>no es tu culpa.</strong><br><br>
+        Las dinámicas relacionales difíciles no ocurren porque seas débil, ingenua o poco valiosa. Ocurren porque crecemos en una cultura que nos enseña muy poco sobre cómo se ve el amor sano de verdad. Muchas personas pasamos por aquí. Es parte de un patrón cultural, no un problema único tuyo.<br><br>
+        Y al mismo tiempo — <strong>tú eres la que va a salvarte.</strong> Tienes las herramientas. Tienes la responsabilidad contigo misma. Y tienes toda la capacidad de recuperar tu bienestar.<br><br>
+        Este test es un comienzo de claridad y autorreflexión. <em>No estás sola en el recorrido.</em>
+      </div>
+    </div>
+
+    <p class="w-intro">A lo largo de este test vas a explorar cómo sientes tu cuerpo en esta relación, qué patrones reconoces, y qué puedes hacer con esa información. Al final encontrarás herramientas somáticas, escenas comparativas y una explicación de los tipos de apego — todo con el único objetivo de darte claridad y acompañamiento.</p>
+
+    <div class="pills-row">
+      <div class="pill">7 bloques</div>
+      <div class="pill">Exploración somática</div>
+      <div class="pill">Verdadero / Falso</div>
+      <div class="pill">Escenas comparativas</div>
+      <div class="pill">Tipos de apego</div>
+      <div class="pill">Herramientas prácticas</div>
+      <div class="pill">Resumen con IA</div>
+    </div>
+    <button class="btn-start" onclick="startTest()">Comenzar cuando estés lista</button>
+    <p style="font-size:0.75rem;color:var(--muted);margin-top:0.75rem;">Tus respuestas no se guardan en ningún servidor. Este espacio es solo tuyo.</p>
+  </div>
+</div>
+
+<!-- TEST -->
+<div id="s-test" class="screen">
+  <div class="twrap">
+    <div class="prow">
+      <div class="ptrack"><div class="pfill" id="pfill" style="width:0%"></div></div>
+      <div class="pcnt" id="pcnt">1 / 15</div>
+    </div>
+    <div id="qarea"></div>
+    <div class="navrow">
+      <button class="btn-g" id="btn-back" onclick="prevQ()" style="visibility:hidden">← Anterior</button>
+      <button class="btn-start" id="btn-next" onclick="nextQ()">Siguiente →</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div id="s-loading" class="screen">
+  <div class="lscreen">
+    <div class="lorb"></div>
+    <h2 class="ltitle" id="ltitle">Escuchando tu cuerpo...</h2>
+    <p class="lsub" id="lsub">Preparando tu resumen</p>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="s-result" class="screen">
+  <div class="rwrap">
+
+    <div class="rheader">
+      <h2 class="rtitle" id="rtitle">Tu resumen</h2>
+      <p class="rsub" id="rsub"></p>
+    </div>
+
+    <!-- RESUMEN IA -->
+    <div style="margin-bottom:2.5rem;">
+      <div class="sec-lbl">Lo que hemos leído</div>
+      <div id="ablocks"></div>
+    </div>
+
+    <div class="qcard" id="qcard-el"></div>
+
+    <!-- SITUACIONES -->
+    <div class="sit-wrap">
+      <div class="sec-lbl">Aprende a reconocer — situaciones reales</div>
+      <p style="font-size:0.88rem;color:var(--muted);line-height:1.65;margin-bottom:1.25rem;font-style:italic;">Antes de leer esto, recuerda: nadie nace sabiendo relacionarse de forma sana. Reconocer una dinámica difícil no significa que seas ingenua. Significa que estás despertando.</p>
+
+      <div class="sit-card">
+        <div class="sit-title">Situación 1 · Los ojos cansados — llevas todo el día mirando pantallas y habíais quedado para ver una película</div>
+        <div class="sit-cols">
+          <div class="sit-col sit-col-a">
+            <div class="sit-col-label sl-a">⚑ Señal de alerta</div>
+            <div class="sit-text">Se lo comunicas a tu pareja: tienes los ojos agotados y la cabeza pesada, necesitas descansar. El ambiente cambia. Sientes que le has fallado. Acabas viendo la película con los ojos entrecerrados, sin poder disfrutarla, pensando en cómo arreglarlo. Al terminar, todo sigue raro.</div>
+          </div>
+          <div class="sit-col sit-col-b">
+            <div class="sit-col-label sl-b">✓ Relación sana</div>
+            <div class="sit-text">Se lo comunicas a tu pareja y escucha. Le frustra un poco — es humano. Pero en lugar de hacerte cargar con eso, propone algo diferente: pone la luz suave, te lee en voz alta, o cocinan juntos algo sencillo. No necesita que el plan sea perfecto para estar bien. Necesita estar contigo.</div>
+          </div>
+        </div>
+        <div class="sit-note">Lo que tu cuerpo nota: en la opción A, tu sistema nervioso sigue en alerta aunque la situación se resuelva. En la opción B, el cuerpo suelta. Esa diferencia es información.</div>
+      </div>
+
+      <div class="sit-card">
+        <div class="sit-title">Situación 2 · Necesito tiempo para mí — llevas días seguidos juntas/juntos</div>
+        <div class="sit-cols">
+          <div class="sit-col sit-col-a">
+            <div class="sit-col-label sl-a">⚑ Señal de alerta</div>
+            <div class="sit-text">Tu pareja se lo toma como un rechazo personal. Se pone a la defensiva. Te hace sentir egoísta por querer estar sola. Acabas quedándote, pero por dentro sigues igual de vacía — y además te sientes culpable.</div>
+          </div>
+          <div class="sit-col sit-col-b">
+            <div class="sit-col-label sl-b">✓ Relación sana</div>
+            <div class="sit-text">Tu pareja te dice que es completamente normal. Que te va a echar de menos — porque te quiere — pero que entiende que cada persona necesita su espacio. Os ponéis una cita en cinco días. Antes de despedirse te da un beso en la frente y te pregunta cómo estás.</div>
+          </div>
+        </div>
+        <div class="sit-note">El amor que necesita poseerte para sentirse seguro no es amor maduro. El amor que te deja ser tú — y te espera — sí lo es.</div>
+      </div>
+
+      <div class="sit-card">
+        <div class="sit-title">Situación 3 · El plan con amigos — la noche anterior tu pareja no quiere ir</div>
+        <div class="sit-cols">
+          <div class="sit-col sit-col-a">
+            <div class="sit-col-label sl-a">⚑ Señal de alerta</div>
+            <div class="sit-text">Sin decirlo directamente, algo cambia en su actitud. Sientes la presión. Cancelas los planes. Les dices a tus amigos que surgió algo. Por dentro sientes una mezcla de alivio y resentimiento que no sabes muy bien cómo nombrar.</div>
+          </div>
+          <div class="sit-col sit-col-b">
+            <div class="sit-col-label sl-b">✓ Relación sana</div>
+            <div class="sit-text">Tu pareja te dice claramente que ella no va, pero que tú eres libre de ir. Te recuerda que puedes hacer cosas sin él. Te pregunta qué es lo que tú quieres hacer. Y espera tu respuesta de verdad, sin cargarla de expectativa.</div>
+          </div>
+        </div>
+        <div class="sit-note">"¿Qué quieres tú?" es una de las frases más amorosas que existen. En una relación tóxica, casi nunca la escuchas.</div>
+      </div>
+    </div>
+
+    <!-- APEGO -->
+    <div style="margin-bottom:2.5rem;">
+      <div class="sec-lbl">Los tipos de apego — un mapa, no un examen</div>
+      <p style="font-size:0.88rem;color:var(--muted);line-height:1.65;margin-bottom:1.25rem;">Todas llegamos a las relaciones con una mochila. Dentro hay todo lo que aprendimos sobre el amor cuando éramos pequeñas. A eso se le llama estilo de apego.</p>
+      <div class="apego-grid">
+        <div class="apego-card ac-ansioso">
+          <div class="ac-label al-ans">Apego ansioso</div>
+          <div class="ac-quote">"Tengo miedo de que me dejen. Necesito saber que estoy bien contigo."</div>
+          <div class="ac-desc">Sientes el amor con mucha intensidad. Te activas cuando percibes distancia. A veces te cuesta soltar aunque algo no te haga bien. No es un defecto — es lo que aprendiste en un entorno donde el afecto era inconsistente.</div>
+        </div>
+        <div class="apego-card ac-evitativo">
+          <div class="ac-label al-evi">Apego evitativo</div>
+          <div class="ac-quote">"Necesito espacio. La cercanía me incomoda aunque la desee."</div>
+          <div class="ac-desc">Valoras mucho tu independencia. Cuando alguien se acerca demasiado, algo en ti se cierra. No es que no sientas — es que aprendiste que mostrar lo que sientes no era seguro.</div>
+        </div>
+        <div class="apego-card ac-seguro">
+          <div class="ac-label al-seg">Apego seguro</div>
+          <div class="ac-quote">"Puedo estar cerca sin perderme. Puedo estar sola sin sentirme abandonada."</div>
+          <div class="ac-desc">No significa no tener miedo nunca. Significa haber aprendido que puedes expresar lo que necesitas y que mereces un amor que no tenga que ganarse cada día.</div>
+        </div>
+      </div>
+      <div class="apego-conclusion">
+        <p>Puedes trabajar tu apego todo lo que quieras. Puedes ir a terapia, leer, hacer tests, conocerte. Y todo eso importa.<br><br>
+        Pero <strong>no puedes construir apego seguro sola.</strong> Necesitas a alguien al otro lado que también quiera construirlo. Alguien con la madurez emocional de gestionar sus propias emociones sin hacerte responsable de ellas.<br><br>
+        Si la persona que tienes al lado te exige que pongas sus deseos por encima de tus necesidades, no es que tú tengas que trabajar más tu apego. Es que estás intentando construir una casa en un terreno que no te deja echar raíces.<br><br>
+        <em>Eso no es culpa tuya. Pero sí es información.</em></p>
+      </div>
+    </div>
+
+    <!-- HERRAMIENTAS -->
+    <div class="herr-wrap">
+      <div class="sec-lbl">Tu cuerpo merece atención — no es normal vivir así</div>
+      <div class="herr-intro">
+        Si llevas tiempo en una relación que te activa el sistema nervioso, es probable que hayas normalizado ciertas sensaciones físicas. El trapecio siempre tenso. El diafragma que no termina de soltarse. La respiración que se queda a medias. La mandíbula apretada por las noches.<br><br>
+        <strong>Eso no es normal. Es frecuente — pero no es normal.</strong><br><br>
+        Los ejercicios que siguen alivian y sanan. Le dan a tu cuerpo un respiro real que merece. Pero queremos ser honestas contigo: <strong>los ejercicios son el alivio. El cambio estructural es la cura.</strong> Solo un cambio real en cómo permitimos que nos traten y en construir desde el respeto va a aliviar tu sistema nervioso a la larga.
+      </div>
+
+      <div class="herr-card">
+        <div class="herr-num">Herramienta 1</div>
+        <div style="text-align:center;margin-bottom:0.75rem;"><img src="diafragma.png" style="width:140px;height:140px;object-fit:contain;display:block;margin:0 auto 0.75rem;" alt="Ilustración liberación del diafragma"></div>
+        <div class="herr-title">Libera el diafragma</div>
+        <div class="herr-when">Para cuando sientes el pecho apretado o la respiración cortada</div>
+        <ol class="herr-steps">
+          <li class="hs-item"><div class="hs-n">1</div>Siéntate o túmbate. Una mano en el pecho, otra en el abdomen.</li>
+          <li class="hs-item"><div class="hs-n">2</div>Inhala 4 segundos dejando que suba el abdomen, no el pecho.</li>
+          <li class="hs-item"><div class="hs-n">3</div>Mantén 2 segundos. Exhala muy lento, 6 segundos.</li>
+          <li class="hs-item"><div class="hs-n">4</div>Con cada exhalación, imagina que sueltas algo que no es tuyo.</li>
+          <li class="hs-item"><div class="hs-n">5</div>Repite 6-8 ciclos.</li>
+        </ol>
+        <div class="herr-nota">Nota cómo el cuerpo cambia aunque la situación no haya cambiado todavía.</div>
+      </div>
+
+      <div class="herr-card">
+        <div class="herr-num">Herramienta 2</div>
+        <div style="text-align:center;margin-bottom:0.75rem;"><img src="trapecio.png" style="width:140px;height:140px;object-fit:contain;display:block;margin:0 auto 0.75rem;" alt="Ilustración liberación del trapecio"></div>
+        <div class="herr-title">Estira el psoas — el músculo que guarda el miedo</div>
+        <div class="herr-when">Para la tensión profunda en caderas, espalda baja o sensación de no poder soltar</div>
+        <ol class="herr-steps">
+          <li class="hs-item"><div class="hs-n">1</div>Colócate en posición de estocada: una rodilla apoyada en el suelo, la otra pierna doblada 90° con el pie plano delante de ti.</li>
+          <li class="hs-item"><div class="hs-n">2</div>Mantén la espalda recta y desliza la cadera hacia adelante y abajo — sin arquear la zona lumbar. Busca el estiramiento en la ingle de la pierna trasera.</li>
+          <li class="hs-item"><div class="hs-n">3</div>Para profundizar, levanta el brazo del mismo lado que la rodilla en el suelo hacia arriba y llévalo ligeramente hacia el lado contrario.</li>
+          <li class="hs-item"><div class="hs-n">4</div>Sostén 45-60 segundos respirando hacia la cadera. Cambia de lado.</li>
+          <li class="hs-item"><div class="hs-n">5</div>Al terminar, quédate unos minutos de pie o sentada en silencio.</li>
+        </ol>
+        <div class="herr-nota">Si sientes ganas de llorar, déjalo. El psoas guarda mucho de lo que no nos permitimos soltar.</div>
+      </div>
+
+      <div class="herr-card">
+        <div class="herr-num">Herramienta 3</div>
+        <div style="text-align:center;margin-bottom:0.75rem;"><img src="psoas.png" style="width:140px;height:140px;object-fit:contain;display:block;margin:0 auto 0.75rem;" alt="Ilustración estiramiento del psoas"></div>
+        <div class="herr-title">Suelta el trapecio y la mandíbula</div>
+        <div class="herr-when">Para la tensión en cuello, hombros y mandíbula — la zona de la hipervigilancia</div>
+        <ol class="herr-steps">
+          <li class="hs-item"><div class="hs-n">1</div>Sube los hombros hacia las orejas todo lo que puedas. Aguanta 5 segundos. Suéltalos de golpe.</li>
+          <li class="hs-item"><div class="hs-n">2</div>Repite 3 veces.</li>
+          <li class="hs-item"><div class="hs-n">3</div>Abre la boca como si bostezaras. Mueve la mandíbula suavemente de lado a lado.</li>
+          <li class="hs-item"><div class="hs-n">4</div>Inclina la cabeza hacia un lado, oreja al hombro. 30 segundos. Cambia de lado.</li>
+        </ol>
+        <div class="herr-nota">Tu cuerpo no necesita permiso para soltar. Solo necesita que le recuerdes que puede.</div>
+      </div>
+
+      <div class="herr-card">
+        <div class="herr-num">Herramienta 4</div>
+        <div style="text-align:center;margin-bottom:0.75rem;"><img src="humming.png" style="width:140px;height:140px;object-fit:contain;display:block;margin:0 auto 0.75rem;" alt="Ilustración humming nervio vago"></div>
+        <div class="herr-title">El humming — activa tu nervio vago</div>
+        <div class="herr-when">Para cuando estás en espiral o necesitas volver a ti</div>
+        <ol class="herr-steps">
+          <li class="hs-item"><div class="hs-n">1</div>Siéntate cómoda. Cierra los ojos.</li>
+          <li class="hs-item"><div class="hs-n">2</div>Inhala profundo. Al exhalar, emite un sonido "mmmm" continuo.</li>
+          <li class="hs-item"><div class="hs-n">3</div>Nota la vibración en el pecho, la garganta, los labios.</li>
+          <li class="hs-item"><div class="hs-n">4</div>Repite 8-10 veces. Termina en silencio 2 minutos.</li>
+        </ol>
+        <div class="herr-nota">No necesitas hacerlo perfectamente. Solo hacerlo.</div>
+      </div>
+    </div>
+
+    <div class="cierre">
+      <p>Has llegado hasta aquí. Has respondido preguntas que quizás nadie te había hecho antes. Has leído cosas que tal vez ya sabías pero no te habías permitido nombrar del todo.<br><br>
+      Eso ya es movimiento.<br><br>
+      No tienes que resolverlo todo hoy. No tienes que tomar ninguna decisión ahora mismo. Solo tienes que saber que lo que sientes tiene nombre, que <strong>no estás sola</strong>, y que mereces relaciones donde tu cuerpo pueda respirar.<br><br>
+      <strong>El resto del recorrido es tuyo. Y puedes hacerlo.</strong></p>
+    </div>
+
+    <div style="text-align:center;margin-top:1rem;">
+      <button class="btn-g" onclick="restart()">Volver al inicio del test</button>
+    </div>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div style="max-width:460px;margin:0 auto;">
+    <div style="font-family:'Playfair Display',serif;font-size:1rem;color:#e8e0d8;margin-bottom:0.4rem;">Diario de Red Flags</div>
+    <p>Fisioterapia somática · Autoconocimiento · Bienestar</p>
+    <p style="margin-top:0.75rem;font-size:0.7rem;opacity:0.5;">Test orientativo. No sustituye atención profesional.</p>
+  </div>
+</footer>
+
+<script>
+const Qs = [
+  // BLOQUE 1 - CUERPO
+  {cat:'Tu cuerpo',bloque:'Bloque 1 · Tu cuerpo',type:'textarea',
+   text:'Cuando esa persona te llama o te escribe, ¿qué sientes físicamente antes de responder?',
+   hint:'Sin filtros. Lo que ocurre en tu cuerpo antes de que tu mente lo procese.',key:'cuerpo1'},
+  {cat:'Tu cuerpo',bloque:'Bloque 1 · Tu cuerpo',type:'chips',
+   text:'Después de pasar tiempo con ella/él, ¿cómo describe tu cuerpo ese momento?',
+   hint:'Selecciona todo lo que reconozcas.',
+   opts:[{t:'Agotada'},{t:'Aliviada'},{t:'Confusa'},{t:'Ansiosa'},{t:'En paz'},{t:'Entumecida'},{t:'Pequeña'},{t:'Libre'}],key:'cuerpo2'},
+  {cat:'Tu cuerpo',bloque:'Bloque 1 · Tu cuerpo',type:'textarea',
+   text:'¿Hay alguna parte de tu cuerpo que se tense cuando piensas en esa relación? ¿Cuál?',
+   hint:'Cuello, mandíbula, pecho, estómago, caderas... No hay respuesta incorrecta.',key:'cuerpo3'},
+  // BLOQUE 2 - EXPERIENCIA
+  {cat:'Tu experiencia',bloque:'Bloque 2 · Tu experiencia',type:'textarea',
+   text:'¿Recuerdas algún momento en que te sentiste pequeña, ridícula o fuera de lugar por algo que dijo o hizo? Descríbelo brevemente.',
+   hint:'No tienes que justificarlo. Solo contarlo.',key:'exp1'},
+  {cat:'Tu experiencia',bloque:'Bloque 2 · Tu experiencia',type:'chips',
+   text:'¿Cómo reaccionas cuando esa persona se enfada?',
+   hint:'Selecciona la más habitual.',
+   opts:[{t:'Me disculpo aunque no sé por qué'},{t:'Me quedo en silencio'},{t:'Me alejo físicamente'},{t:'Intento calmarlo/a'},{t:'Exploto y luego me arrepiento'},{t:'Me desconecto por dentro'}],
+   key:'exp2'},
+  {cat:'Tu experiencia',bloque:'Bloque 2 · Tu experiencia',type:'textarea',
+   text:'¿Has dejado de hacer cosas que antes disfrutabas desde que está esa persona en tu vida? ¿Cuáles?',
+   hint:'Puede ser algo pequeño o algo grande.',key:'exp3'},
+  {cat:'Tu experiencia',bloque:'Bloque 2 · Tu experiencia',type:'chips',
+   text:'¿Sientes que debes medir tus palabras, tu humor o tu comportamiento para evitar su reacción?',
+   hint:'',
+   opts:[{t:'Siempre'},{t:'A veces'},{t:'Raramente'},{t:'Nunca'}],
+   key:'exp4'},
+  // BLOQUE 3 - INTERIOR
+  {cat:'Tu interior',bloque:'Bloque 3 · Tu interior',type:'textarea',
+   text:'¿Cómo te describes a ti misma ahora comparada con cómo eras antes de esta relación?',
+   hint:'Sin juzgarte. Solo observar.',key:'int1'},
+  {cat:'Tu interior',bloque:'Bloque 3 · Tu interior',type:'textarea',
+   text:'Cuando algo te molesta de esa persona, ¿qué te dices a ti misma por dentro?',
+   hint:'Esa voz interior que aparece cuando algo no va bien.',key:'int2'},
+  {cat:'Tu interior',bloque:'Bloque 3 · Tu interior',type:'textarea',
+   text:'Si una amiga te contara exactamente lo que tú estás viviendo, ¿qué le dirías?',
+   hint:'Esta pregunta a veces es la más reveladora.',key:'int3'},
+  // BLOQUE 4 - VERDADERO/FALSO
+  {cat:'Verdadero o Falso',bloque:'Bloque 4 · Verdadero o Falso',type:'tf',
+   text:'Si esa persona se enfada cuando tú tienes necesidades o límites, eso es un problema tuyo.',
+   ans:false,
+   exp:'Las necesidades básicas son legítimas. Su enfado habla de su gestión emocional, no de tu error. Cuando alguien se enfada porque tú tienes necesidades, está mostrando su incompetencia emocional, no tu fallo.',key:'tf1'},
+  {cat:'Verdadero o Falso',bloque:'Bloque 4 · Verdadero o Falso',type:'tf',
+   text:'Sentirte confusa o dudar de tu memoria después de una discusión es algo normal en cualquier relación.',
+   ans:false,
+   exp:'La confusión sistemática después de conflictos puede ser una señal de gaslighting — cuando alguien te hace dudar de tu propia percepción de forma repetida. Una discusión puede ser intensa, pero no debería dejarte sin saber qué es real.',key:'tf2'},
+  {cat:'Verdadero o Falso',bloque:'Bloque 4 · Verdadero o Falso',type:'tf',
+   text:'Tu cuerpo siempre sabe distinguir entre tensión sana y daño real, aunque tu mente lo negocie.',
+   ans:true,
+   exp:'El sistema nervioso registra la diferencia antes de que la mente la procese. Esa tensión en el pecho, esa respiración cortada, ese agotamiento después de estar juntas — son información real, no exageración.',key:'tf3'},
+  {cat:'Verdadero o Falso',bloque:'Bloque 4 · Verdadero o Falso',type:'tf',
+   text:'Si has cambiado quién eres para adaptarte a esa persona, eso significa que has madurado.',
+   ans:false,
+   exp:'Adaptarse es sano. Borrarse no lo es. Hay una diferencia importante: la madurez te hace más tú misma, no menos. Si sientes que te has vuelto más pequeña, más cautelosa, más diferente a quien eras — eso no es crecimiento.',key:'tf4'},
+  {cat:'Verdadero o Falso',bloque:'Bloque 4 · Verdadero o Falso',type:'tf',
+   text:'Buscar claridad sobre tu relación y pedir ayuda es un acto de valentía, no de debilidad.',
+   ans:true,
+   exp:'Reconocer que algo no está bien y buscar herramientas es el primer paso real. Estás aquí. Eso ya dice mucho de ti.',key:'tf5'},
+];
+
+let cur=0, answers={}, aiResult=null, tfAnswered=false;
+
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function startTest(){show('s-test');renderQ();}
+
+function renderQ(){
+  const q=Qs[cur];
+  document.getElementById('pfill').style.width=((cur/Qs.length)*100)+'%';
+  document.getElementById('pcnt').textContent=(cur+1)+' / '+Qs.length;
+  document.getElementById('btn-back').style.visibility=cur===0?'hidden':'visible';
+  document.getElementById('btn-next').textContent=cur===Qs.length-1?'Ver mi resumen →':'Siguiente →';
+  document.getElementById('btn-next').style.display=q.type==='tf'?'none':'inline-block';
+  tfAnswered=false;
+
+  let h=`<div class="qwrap">`;
+  if(q.bloque) h+=`<div class="block-label">${q.bloque}</div>`;
+  h+=`<div class="qtag">${q.cat}</div><div class="qtext">${q.text}</div>`;
+  if(q.hint) h+=`<div class="qhint">${q.hint}</div>`;
+
+  if(q.type==='textarea'){
+    const v=(answers[q.key]||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    h+=`<textarea id="qi" placeholder="Escribe aquí..." oninput="answers['${q.key}']=this.value">${v}</textarea>`;
+  } else if(q.type==='chips'){
+    const sel=answers[q.key]||[];
+    h+=`<div class="chips-col">`+q.opts.map((o,idx)=>{
+      const isSel=q.single?sel[0]===o.t:sel.includes(o.t);
+      return `<button class="chip${isSel?' sel':''}" onclick="toggleChip(${cur},${idx},this,${q.single?'true':'false'})">
+        <div class="chk"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5l2 2L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div>${o.t}</div></button>`;
+    }).join('');
+
+    const otraVal=answers[q.key+'_otra']||'';
+    h+=`<div style="display:flex;align-items:center;gap:0.5rem;margin-top:0.25rem;">
+      <div class="chk" style="flex-shrink:0;border-color:var(--border);"></div>
+      <input type="text" placeholder="Otra: escribe aquí si no está en la lista..."
+        value="${otraVal.replace(/"/g,'&quot;')}"
+        oninput="answers['${q.key}_otra']=this.value"
+        style="flex:1;border:1px solid var(--border);border-radius:4px;padding:0.65rem 0.9rem;font-family:'DM Sans',sans-serif;font-size:0.88rem;color:var(--ink);background:white;"
+        onfocus="this.style.borderColor='var(--rose)'" onblur="this.style.borderColor='var(--border)'">
+    </div>`;
+    h+=`</div>`;
+  } else if(q.type==='tf'){
+    h+=`<div class="tf-row">
+      <button class="tf-btn v" id="btn-v" onclick="answerTF(true)">Verdadero</button>
+      <button class="tf-btn f" id="btn-f" onclick="answerTF(false)">Falso</button>
+    </div>
+    <div class="feedback" id="fb"></div>`;
+  }
+  h+=`</div>`;
+  document.getElementById('qarea').innerHTML=h;
+  window.scrollTo(0,80);
+}
+
+function toggleChip(qIdx,optIdx,el,single){
+  const q=Qs[qIdx],val=q.opts[optIdx].t,key=q.key;
+  if(single){answers[key]=[val];document.querySelectorAll('.chip').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');}
+  else{if(!answers[key])answers[key]=[];const i=answers[key].indexOf(val);if(i>-1){answers[key].splice(i,1);el.classList.remove('sel');}else{answers[key].push(val);el.classList.add('sel');}}
+}
+
+function answerTF(chosen){
+  if(tfAnswered) return;
+  tfAnswered=true;
+  const q=Qs[cur];
+  const correct=chosen===q.ans;
+  answers[q.key]=chosen;
+  document.getElementById('btn-v').disabled=true;
+  document.getElementById('btn-f').disabled=true;
+  if(chosen===true) document.getElementById('btn-v').classList.add(correct?'correct':'wrong');
+  else document.getElementById('btn-f').classList.add(correct?'correct':'wrong');
+  if(q.ans===true&&chosen!==true) document.getElementById('btn-v').classList.add('reveal');
+  if(q.ans===false&&chosen!==false) document.getElementById('btn-f').classList.add('reveal');
+  const fb=document.getElementById('fb');
+  fb.className='feedback show '+(correct?'fb-v':'fb-f');
+  fb.innerHTML=`<div class="fb-head ${correct?'fh-v':'fh-f'}">${correct?'Correcto':'Incorrecto'} · ${q.ans?'Verdadero':'Falso'}</div>
+    <div class="fb-text">${q.exp}</div>`;
+  setTimeout(()=>{
+    const btnN=document.createElement('button');
+    btnN.className='btn-start';btnN.style.marginTop='0.75rem';
+    btnN.textContent=cur===Qs.length-1?'Ver mi resumen →':'Siguiente →';
+    btnN.onclick=nextQ;
+    fb.appendChild(btnN);
+  },400);
+}
+
+function nextQ(){if(cur<Qs.length-1){cur++;renderQ();}else{runAnalysis();}}
+function prevQ(){if(cur>0){cur--;renderQ();}}
+
+const lmsgs=[['Escuchando tu cuerpo...','Leyendo lo que has compartido'],['Analizando el patrón relacional...','Conectando cuerpo y experiencia'],['Preparando tu resumen...','Con cuidado y sin prisa']];
+let lmi=0,liv=null;
+
+async function runAnalysis(){
+  show('s-loading');
+  const lt=document.getElementById('ltitle'),ls=document.getElementById('lsub');
+  liv=setInterval(()=>{lmi=(lmi+1)%lmsgs.length;lt.textContent=lmsgs[lmi][0];ls.textContent=lmsgs[lmi][1];},2200);
+
+  const prompt=`Eres una fisioterapeuta somática especialista en bienestar relacional. Hablas con calidez, sin juzgar, con compasión. NUNCA uses las palabras diagnóstico, psicología o psicológico. Usa: resumen, lectura somática, bienestar, autoconocimiento, fisioterapia somática.
+
+RESPUESTAS DEL TEST DE PAREJA:
+- Sensación corporal al recibir mensajes: ${answers.cuerpo1||'No respondida'}
+- Estado después de estar juntas/juntos: ${(answers.cuerpo2||[]).join(', ')||'No respondido'}
+- Zona de tensión corporal: ${answers.cuerpo3||'No respondida'}
+- Situación de sentirse pequeña: ${answers.exp1||'No respondida'}
+- Reacción ante el enfado: ${(answers.exp2||[])[0]||'No respondida'}
+- Cosas que ha dejado de hacer: ${answers.exp3||'No respondida'}
+- Mide palabras/comportamiento: ${(answers.exp4||[])[0]||'No respondida'}
+- Cómo se describe ahora vs antes: ${answers.int1||'No respondida'}
+- Voz interior ante el malestar: ${answers.int2||'No respondida'}
+- Lo que le diría a una amiga: ${answers.int3||'No respondida'}
+
+Genera un JSON sin texto extra (solo JSON válido):
+{"titulo":"frase poética 5-7 palabras que resume su momento","subtitulo":"1-2 frases compasivas que validan lo que vive","cuerpo":"2-3 frases sobre lo que las señales físicas revelan desde la fisioterapia somática","patron":"2-3 frases sobre el patrón relacional detectado sin juzgar","interior":"2-3 frases sobre lo que revela su voz interior y cómo se ve a sí misma","mensaje":"2-3 frases de cierre poderosas y esperanzadoras en primera persona plural (nosotras)"}`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:800,messages:[{role:'user',content:prompt}]})});
+    const data=await res.json();
+    clearInterval(liv);
+    const raw=data.content.map(b=>b.text||'').join('');
+    aiResult=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    renderResult(aiResult);
+  }catch(e){
+    clearInterval(liv);
+    aiResult={titulo:'Algo en ti ya lo sabía',subtitulo:'Lo que has compartido merece atención y cuidado. Tu percepción es válida.',cuerpo:'Las señales físicas que describes no son exageración. Son la respuesta inteligente de un sistema nervioso que lleva tiempo en guardia. Las fascias acumulan lo que no se nombra.',patron:'El patrón que emerge es el de alguien que ha aprendido a adaptarse para mantener el vínculo, a un coste alto para sí misma. Esa adaptación fue inteligente en su momento.',interior:'La voz que escuchas por dentro cuando algo no va bien es real. Que te preguntes qué le dirías a una amiga ya dice mucho de la claridad que tienes, aunque no siempre te la apliques a ti.',mensaje:'Lo que sientes es real. Tu cuerpo no miente. Y el hecho de que estés aquí, mirando con honestidad, ya es un acto de valentía y de amor hacia ti misma.'};
+    renderResult(aiResult);
+  }
+}
+
+function renderResult(r){
+  show('s-result');window.scrollTo(0,0);
+  document.getElementById('rtitle').textContent=r.titulo;
+  document.getElementById('rsub').textContent=r.subtitulo;
+  const blocks=[{lbl:'Lo que tu cuerpo dice',txt:r.cuerpo},{lbl:'El patrón que se ve',txt:r.patron},{lbl:'Tu voz interior',txt:r.interior}];
+  document.getElementById('ablocks').innerHTML=blocks.map(b=>`<div class="acard"><div class="acard-lbl">${b.lbl}</div><p>${b.txt}</p></div>`).join('');
+  document.getElementById('qcard-el').innerHTML=`<p>${r.mensaje}</p>`;
+}
+
+function restart(){cur=0;answers={};aiResult=null;show('s-welcome');window.scrollTo(0,0);}
+</script>
+</body>
+</html>
